@@ -1,5 +1,6 @@
 //variables..................
 let form = document.getElementById("form");
+let submit = form.querySelector(".button");
 let tweet = document.getElementById('tweet')
 let tweetList = document.getElementById("tweet-list");
 
@@ -11,7 +12,7 @@ let getElement = getFromLocalStorage();
 eventListener();
 
 function eventListener() {
-    form.addEventListener("click", myTweet)
+    submit.addEventListener("click", myTweet)
     document.addEventListener("DOMContentLoaded", addTweetFormLocalStorage)
     tweetList.addEventListener("click", removeTweet)
 }
@@ -70,12 +71,18 @@ function addTweetFormLocalStorage(){
 
 
 //remove item....................
-function removeTweet(e) {
-    let element = e.target.classList.contains('id');
-    e.target.parentElement.remove();
+function removeTweet(event) {
+    if(event.target.classList.contains('id')){
+        let element = event.target.previousElementSibling.innerText;
+        removeItem(element);
+        event.target.parentElement.remove();
+    }
+     
+}
 
+function removeItem(element) {
     getElement.forEach(function(value, index){
-        if(value = element)
+        if(value == element)
         {
             getElement.splice(index, 1);
         }
@@ -83,5 +90,4 @@ function removeTweet(e) {
         localStorage.clear();
         localStorage.setItem("element", JSON.stringify(getElement))
     })
-    
 }
